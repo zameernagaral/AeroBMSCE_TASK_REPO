@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="4" fill="#FCBC34"/>
+  <!-- Aerodynamic aircraft / wing silhouette in ink (#101014) -->
+  <path d="M16 6 L26 21 L16 17 L6 21 Z" fill="#101014"/>
+  <circle cx="16" cy="14" r="1.5" fill="#FCBC34"/>
+</svg>

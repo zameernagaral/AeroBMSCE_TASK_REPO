@@ -1,0 +1,153 @@
+/* ==========================================================================
+   Photo Wall Signature Styles (docs/TOKENS.md Section 7)
+   Rules: Strictly variables from tokens.css. No raw hex or px values in CSS.
+   ========================================================================== */
+
+.wall {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .row {
+    flex-direction: row;
+    gap: var(--space-2);
+  }
+}
+
+.tile {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .tile {
+    /* Flex-grow proportional to aspect ratio so all tiles in a row share the exact row height */
+    flex: var(--aspect) 1 0%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Photo Frame & Loading/Failure States
+   -------------------------------------------------------------------------- */
+.frame {
+  position: relative;
+  width: 100%;
+  background-color: var(--color-paper);
+  border: var(--rule-1) solid var(--color-rule);
+  border-radius: var(--radius-0);
+  overflow: hidden;
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-0);
+}
+
+/* Fallback box when image source fails */
+.fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  font-family: var(--font-data);
+  font-size: var(--text-data);
+  line-height: var(--lh-data);
+  letter-spacing: var(--ls-data);
+  color: var(--color-graphite);
+  background-color: var(--color-paper);
+  border: var(--rule-1) dashed var(--color-rule);
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Caption Styling
+   -------------------------------------------------------------------------- */
+.caption {
+  display: flex;
+  flex-direction: column;
+  border-top: var(--rule-1) solid var(--color-rule);
+  padding-top: var(--space-2);
+}
+
+.captionList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.captionRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.captionLabel {
+  font-family: var(--font-data);
+  font-size: var(--text-data);
+  line-height: var(--lh-data);
+  letter-spacing: var(--ls-data);
+  color: var(--color-graphite);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.captionValue {
+  font-family: var(--font-data);
+  font-size: var(--text-data);
+  line-height: var(--lh-data);
+  letter-spacing: var(--ls-data);
+  color: var(--color-ink);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+}
+
+/* Desktop single-line caption format if desired */
+@media (min-width: 1024px) {
+  .tile:hover .captionValue,
+  .tile:focus-within .captionValue {
+    text-decoration: underline;
+    text-decoration-thickness: var(--rule-2);
+    text-underline-offset: var(--space-1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Scroll Reveal (One-shot clip wipe from bottom edge)
+   Default is visible (No-JS safe).
+   JS marks below-the-fold tiles with [data-reveal="pending"].
+   -------------------------------------------------------------------------- */
+.tile[data-reveal="pending"] .frame {
+  clip-path: inset(100% 0 0 0);
+}
+
+.tile[data-reveal="done"] .frame {
+  clip-path: inset(0% 0 0 0);
+  transition: clip-path var(--dur-3) var(--ease);
+  transition-delay: calc(var(--col) * var(--dur-1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile[data-reveal="pending"] .frame,
+  .tile[data-reveal="done"] .frame {
+    clip-path: none !important;
+    transition: none !important;
+  }
+}
