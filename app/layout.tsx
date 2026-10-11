@@ -24,14 +24,18 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://aerobmsce.bmsce.ac.in'),
+  metadataBase: new URL(
+    process.env.GITHUB_ACTIONS === 'true'
+      ? 'https://zameernagaral.github.io/AeroBMSCE_TASK_REPO'
+      : 'https://aerobmsce.bmsce.ac.in'
+  ),
   title: 'AeroBMSCE: aircraft and drone team at BMSCE, Bengaluru',
   description:
     'AeroBMSCE builds and flies aircraft and drones at BMS College of Engineering, Bengaluru. 2nd at SAE Aerothon 2025. Partner with us.',
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/favicon.ico',
-    apple: '/icon.svg',
+    icon: './icon.svg',
+    shortcut: './favicon.ico',
+    apple: './icon.svg',
   },
   openGraph: {
     title: 'AeroBMSCE: aircraft and drone team at BMSCE, Bengaluru',

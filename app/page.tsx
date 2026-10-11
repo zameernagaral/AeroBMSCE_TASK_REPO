@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './page.module.css';
 import PhotoWall from './_wall/PhotoWall';
+import { AnimatedBackground } from '../components/core/animated-background';
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -76,16 +77,24 @@ export default function HomePage() {
 
           <nav aria-label="Main" className={styles.nav}>
             <a href="#teams" className={styles.menuTrigger}>Menu</a>
-            <ul className={styles.navList}>
-              <li><a href="#teams" className={styles.navLink}>Teams</a></li>
-              <li><a href="#results" className={styles.navLink}>Results</a></li>
-              <li><a href="#tiers" className={styles.navLink}>Partners</a></li>
-              <li>
-                <a href="#partner" className={styles.navCta}>
-                  Partner with us
-                </a>
-              </li>
-            </ul>
+            <div className={styles.navList}>
+              <AnimatedBackground
+                enableHover
+                className={styles.navPillHover}
+                transition={{
+                  type: 'spring',
+                  bounce: 0.15,
+                  duration: 0.3,
+                }}
+              >
+                <a href="#teams" data-id="teams" className={styles.navLink}>Teams</a>
+                <a href="#results" data-id="results" className={styles.navLink}>Results</a>
+                <a href="#tiers" data-id="tiers" className={styles.navLink}>Partners</a>
+              </AnimatedBackground>
+              <a href="#partner" className={styles.navCta}>
+                Partner with us
+              </a>
+            </div>
           </nav>
         </div>
       </header>

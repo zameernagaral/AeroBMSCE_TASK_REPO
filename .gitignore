@@ -11,6 +11,7 @@ dist/
 
 # Test & MCP automation artifacts
 .playwright-mcp/
+shots/
 test-results/
 playwright-report/
 blob-report/

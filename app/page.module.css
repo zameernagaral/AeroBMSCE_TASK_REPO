@@ -158,18 +158,29 @@
   display: none;
 }
 
+.navPillHover {
+  background-color: var(--color-rule);
+  border-radius: var(--radius-1);
+}
+
 .navLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding-inline: var(--space-3);
+  padding-block: var(--space-2);
   font-family: var(--font-body);
   font-size: var(--text-body);
   font-weight: var(--weight-medium);
   color: var(--color-ink);
+  text-decoration: none;
+  border-radius: var(--radius-1);
   transition: color var(--dur-1) var(--ease);
 }
 
 .navLink:hover {
-  text-decoration: underline;
-  text-decoration-thickness: var(--rule-2);
-  text-underline-offset: var(--space-1);
+  text-decoration: none;
+  color: var(--color-ink);
 }
 
 .navLink:active {

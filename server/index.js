@@ -8,7 +8,7 @@ import { toNodeHandler, fromNodeHeaders } from "better-auth/node";
 import { auth } from "./auth.js";
 import { db } from "./db.js";
 import { inquiries, partnerTiers, results, teams } from "./schema.js";
-import { idSchema, inquirySchema, inquiryStatusSchema, pageQuerySchema, resultSchema, teamSchema } from "./validation.js";
+import { idSchema, inquirySchema, inquiryStatusSchema, pageQuerySchema, resultSchema, resultsQuerySchema, teamSchema } from "./validation.js";
 
 const requiredEnv = ["FRONTEND_URL", "BETTER_AUTH_URL", "BETTER_AUTH_SECRET"];
 for (const key of requiredEnv) {
@@ -73,8 +73,7 @@ app.get("/api/teams", (req, res) => {
   res.json({ data: db.select().from(teams).orderBy(teams.name).limit(query.limit).all() });
 });
 app.get("/api/results", (req, res) => {
-  const querySchema = pageQuerySchema.extend({ year: zodYear }).strict();
-  const query = parse(querySchema, req.query, res);
+  const query = parse(resultsQuerySchema, req.query, res);
   if (!query) return;
   const condition = query.year ? eq(results.year, query.year) : undefined;
   const data = db.select().from(results).where(condition).orderBy(desc(results.year)).limit(query.limit).all();
@@ -133,5 +132,4 @@ app.use((error, _req, res, _next) => {
   res.status(500).json({ error: "Internal server error" });
 });
 
-const zodYear = (await import("zod")).z.coerce.number().int().min(2000).max(new Date().getFullYear() + 2).optional();
 app.listen(port, () => console.log(`AeroBMSCE API listening on ${port}; CORS origin ${frontendOrigin}`));
