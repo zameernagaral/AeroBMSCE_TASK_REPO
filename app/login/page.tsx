@@ -12,6 +12,12 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const handleFillDemo = () => {
+    setEmail('admin@aerobmsce.ac.in');
+    setPassword('Aer0BMSCE!SecureAdmin2026');
+    setError(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -21,19 +27,25 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/sign-in/email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ email: email.trim(), password }),
       });
 
-      const data = await res.json().catch(() => ({}));
+      if (res.status === 401) {
+        throw new Error('Authentication failed. Please check your credentials.');
+      }
 
       if (!res.ok) {
-        throw new Error(data.message || data.error || 'Authentication failed. Please check your credentials.');
+        throw new Error('Sign-in failed. Please try again.');
       }
 
       router.push('/admin');
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Sign-in failed. Please try again.';
-      setError(message);
+      if (err instanceof Error && err.message === 'Authentication failed. Please check your credentials.') {
+        setError(err.message);
+      } else {
+        setError('Sign-in failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -63,13 +75,37 @@ export default function LoginPage() {
             </p>
           </div>
 
+          <div className={styles.demoBox}>
+            <div className={styles.demoHeader}>
+              <span className={styles.demoBadge}>Evaluator Access</span>
+              <p className={styles.demoTitle}>Demo Administrator Credentials</p>
+            </div>
+            <div className={styles.demoCredentials}>
+              <div className={styles.demoRow}>
+                <span className={styles.demoLabel}>Email:</span>
+                <span className={styles.demoValue}>admin@aerobmsce.ac.in</span>
+              </div>
+              <div className={styles.demoRow}>
+                <span className={styles.demoLabel}>Password:</span>
+                <span className={styles.demoValue}>Aer0BMSCE!SecureAdmin2026</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleFillDemo}
+              className={styles.demoFillBtn}
+            >
+              Fill Demo Credentials
+            </button>
+          </div>
+
           {error && (
             <div className={styles.alertBox} data-type="error" role="alert">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className={styles.form} noValidate>
+          <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.fieldGroup}>
               <label htmlFor="admin-email" className={styles.label}>
                 Team Email

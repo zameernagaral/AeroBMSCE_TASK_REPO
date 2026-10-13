@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './page.module.css';
 import PhotoWall from './_wall/PhotoWall';
 import { AnimatedBackground } from '../components/core/animated-background';
@@ -108,10 +109,10 @@ export default function HomePage() {
               Est. 2012 · Propel Lab–3 · BMS College of Engineering, Bengaluru
             </p>
             <h1 id="hero-title" className={styles.heroTitle}>
-              Your logo on aircraft that competed in Texas
+              Designing, building, and flying competitive aircraft &amp; drones
             </h1>
             <p className={styles.heroLead}>
-              Platinum and Gold partners get their logo on our aircraft.
+              AeroBMSCE is the student aeromodelling and UAV engineering team at BMS College of Engineering, Bengaluru. Established in 2012 at Propel Lab–3.
             </p>
             <div className={styles.heroActions}>
               <a href="#partner" className={styles.heroPrimaryBtn}>
@@ -635,7 +636,7 @@ export default function HomePage() {
                       width={687}
                       height={169}
                       alt="DRK Store"
-                      className={styles.logoImg}
+                      className={`${styles.logoImg} ${styles.logoImgInvert}`}
                     />
                   </li>
                   <li className={styles.logoCell}>
@@ -644,7 +645,7 @@ export default function HomePage() {
                       width={320}
                       height={320}
                       alt="UAV Marketplace"
-                      className={styles.logoImg}
+                      className={`${styles.logoImg} ${styles.logoImgInvert}`}
                     />
                   </li>
                 </ul>
@@ -739,6 +740,11 @@ export default function HomePage() {
                 >
                   Join the club
                 </a>
+              </li>
+              <li>
+                <Link href="/login" className={styles.footerNavLink}>
+                  Admin Portal
+                </Link>
               </li>
             </ul>
           </nav>

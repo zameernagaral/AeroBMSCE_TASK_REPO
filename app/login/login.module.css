@@ -219,3 +219,89 @@
   color: var(--color-graphite);
   text-align: center;
 }
+
+.demoBox {
+  background-color: var(--color-paper);
+  border: var(--rule-1) solid var(--color-rule);
+  border-radius: var(--radius-0);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.demoHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.demoBadge {
+  font-family: var(--font-data);
+  font-size: var(--text-data);
+  color: var(--color-graphite);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-data);
+}
+
+.demoTitle {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+
+.demoCredentials {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.demoRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-2);
+  font-family: var(--font-data);
+  font-size: var(--text-data);
+  word-break: break-all;
+}
+
+.demoLabel {
+  color: var(--color-graphite);
+  font-weight: var(--weight-medium);
+}
+
+.demoValue {
+  color: var(--color-ink);
+  font-weight: var(--weight-medium);
+}
+
+.demoFillBtn {
+  min-height: var(--tap-min);
+  padding-inline: var(--space-3);
+  padding-block: var(--space-2);
+  background-color: var(--color-white);
+  border: var(--rule-1) solid var(--color-rule);
+  border-radius: var(--radius-1);
+  font-family: var(--font-body);
+  font-size: var(--text-data);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--dur-1) var(--ease),
+              border-color var(--dur-1) var(--ease);
+}
+
+.demoFillBtn:hover {
+  background-color: var(--color-paper);
+  border-color: var(--color-ink);
+}
+
+.demoFillBtn:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}

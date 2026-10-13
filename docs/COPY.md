@@ -45,8 +45,8 @@ Every string on the page, by section, with a maximum length in characters. Wiref
 | ID | String | Max | Source / note |
 |---|---|---|---|
 | hero.eyebrow | Est. 2012 · Propel Lab–3 · BMS College of Engineering, Bengaluru | 72 | Index: established 2012, Propel Lab–3. Wraps to two lines on mobile |
-| hero.h1 | Your logo on aircraft that competed in Texas | 48 | Platinum/Gold tiers put logos on aircraft; SAE Aero Design West, Fort Worth, Texas, 2026 season. Confirm the entry (item 5) |
-| hero.lead | Platinum and Gold partners get their logo on our aircraft. | 70 | partners.html: Platinum primary logo, Gold secondary logo on aircraft models |
+| hero.h1 | Designing, building, and flying competitive aircraft & drones | 70 | Primary mission statement: aircraft and UAV engineering |
+| hero.lead | AeroBMSCE is the student aeromodelling and UAV engineering team at BMS College of Engineering, Bengaluru. Established in 2012 at Propel Lab–3. | 160 | Club identity, college affiliation, establishment year and lab base |
 | hero.cta.primary | Partner with us | 20 | Scrolls to section 7 |
 | hero.cta.secondary | Join the club | 20 | [NEEDS FACT: where this link goes, item 11] |
 | sticky.cta | Partner with us | 20 | Mobile bottom bar, appears after the hero button leaves the screen |

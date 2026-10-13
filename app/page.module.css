@@ -854,6 +854,10 @@
   filter: contrast(1.05);
 }
 
+.logoImgInvert {
+  filter: brightness(0);
+}
+
 .drdoNote {
   font-family: var(--font-data);
   font-size: var(--text-data);

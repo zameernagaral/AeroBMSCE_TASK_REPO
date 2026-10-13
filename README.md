@@ -52,12 +52,12 @@ Our objective was to design a clean, authoritative, and high-performance digital
    - **Data Rails (`IBM Plex Mono`)**: Monospaced typography for telemetry metadata, competition dates, tail designations, and prize standings.
 
 4. **Single Memorable Signature Element: Real-Photo Wall**:
-   - To build authentic trust, we implemented a curated **Photo Wall** ([app/_wall/PhotoWall.tsx](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/app/_wall/PhotoWall.tsx)) displaying genuine team and competition photos from SAE Aerothon and SAE Aero Design West (Texas).
+   - To build authentic trust, we implemented a curated **Photo Wall** (`app/_wall/PhotoWall.tsx`) displaying genuine team and competition photos from SAE Aerothon and SAE Aero Design West (Texas).
    - Each tile reserves its exact bounding aspect ratio before the image arrives to eliminate layout shifts (CLS = 0).
    - Images reveal with subtle staggered wipe transitions powered by native `IntersectionObserver` with zero external library overhead.
 
 5. **Restrained Micro-Interactions (Zero-Dependency Animated Background)**:
-   - Implemented an interactive sliding background indicator ([AnimatedBackground](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/components/core/animated-background.tsx)) for navigation links and admin console tabs.
+   - Implemented an interactive sliding background indicator (`components/core/animated-background.tsx`) for navigation links and admin console tabs.
    - Uses hardware-accelerated CSS transforms (`translate3d`) with spring-feel cubic-bezier easing (`cubic-bezier(0.34, 1.35, 0.64, 1)`), avoiding the 35+ kB bundle bloat of heavy animation libraries.
    - Strictly respects `@media (prefers-reduced-motion: reduce)`, instantly falling back to zero transitions for users who request reduced motion.
 
@@ -89,7 +89,7 @@ During local testing and initial GitHub Actions CI workflow runs, the static bui
 - Deploying directly without Jekyll overrides prevented the browser from loading the `_next/` bundle files.
 
 ### 3. The Steps Taken to Work Around It
-1. **Implemented a Custom Image Loader ([image-loader.ts](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/image-loader.ts))**:
+1. **Implemented a Custom Image Loader (`image-loader.ts`)**:
    - Created a dedicated loader script that detects whether the application is running under GitHub Actions / production static export:
      ```ts
      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (process.env.GITHUB_ACTIONS === 'true' ? '/AeroBMSCE_TASK_REPO' : '');
@@ -99,21 +99,45 @@ During local testing and initial GitHub Actions CI workflow runs, the static bui
        return `${basePath}${cleanSrc}`;
      }
      ```
-   - Configured `images.loader: 'custom'` and `images.loaderFile: './image-loader.ts'` in [next.config.js](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/next.config.js). This cleanly ensured all `<Image />` components prepend `/AeroBMSCE_TASK_REPO` without altering codebase component files.
+   - Configured `images.loader: 'custom'` and `images.loaderFile: './image-loader.ts'` in `next.config.js`. This cleanly ensured all `<Image />` components prepend `/AeroBMSCE_TASK_REPO` without altering codebase component files.
 2. **Added Jekyll Bypass Rules (`.nojekyll`)**:
    - Created `.nojekyll` files at both the repository root and inside `public/.nojekyll`. Next.js automatically copies `public/.nojekyll` to `out/.nojekyll`, instructing GitHub Pages to serve all `_next/` static JavaScript, CSS, and font chunks without filtering.
 3. **Locked Metadata Routes to Static Generation**:
-   - Added `export const dynamic = 'force-static';` to both [app/robots.ts](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/app/robots.ts) and [app/sitemap.ts](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/app/sitemap.ts), allowing `next build` to prerender all 11 routes into static HTML/XML cleanly in under 500ms.
+   - Added `export const dynamic = 'force-static';` to both `app/robots.ts` and `app/sitemap.ts`, allowing `next build` to prerender all 11 routes into static HTML/XML cleanly in under 500ms.
 4. **End-to-End Local Emulation & Automated Verification**:
    - Tested the complete static build locally using a subpath-emulated server (`http://localhost:5050/AeroBMSCE_TASK_REPO/`).
    - Audited every network request across 360px, 768px, and 1280px viewports via Playwright. Confirmed that all 32 static requests returned HTTP 200 with zero 404s and zero console errors.
 
 ---
 
+## Administrative Portal & Evaluator Guide
+
+For evaluators and reviewers testing the full-stack platform, an administrative console and backend portal is built directly into the site:
+
+### 1. Where to Locate the Admin Portal
+- **Footer Navigation**: Scroll to the bottom of the public homepage (`/`). Under the **Footer navigation** links, click the discrete **[Admin Portal](/login)** link.
+- **Direct Route**: Navigate directly to `/login`.
+
+### 2. Demo Credentials & One-Click Auto-Fill
+The `/login` page features a high-contrast **Evaluator Access** card displaying the pre-seeded root administrator credentials:
+- **Email**: `admin@aerobmsce.ac.in`
+- **Password**: `Aer0BMSCE!SecureAdmin2026`
+- **One-Click Auto-Fill**: Clicking the **"Fill Demo Credentials"** button instantly populates the email and password fields without submitting the form or overwriting state improperly.
+
+### 3. Administrative Console Features (`/admin`)
+Once authenticated, the `/admin` portal provides three dedicated tabs with server-side validation and live SQLite persistence:
+1. **Partnership Inquiries**: Real-time review and triage of incoming corporate sponsor and mentor submissions (`New` → `Mark Contacted` → `Mark Closed`).
+2. **Competition Results Publisher**: Add verified podium placements (e.g. SAE Aerothon, SAE Aero Design West) with faculty verification flags directly to the public catalog.
+3. **Flight Divisions Manager**: Register and maintain the active sub-teams (Team Yaksha, Team Blue Impulse, Team Flying Phantoms, Team Vectors).
+4. **Security & Session Governance**: Enforces cryptographically signed HTTP-only cookies (`better-auth.session_token`), rate limiting via `express-rate-limit` (20 attempts / 15 min), parameterized queries via Drizzle ORM, and strict server-side `requireAdmin` role evaluation.
+
+---
+
 ## Technical & Submission Verification
 
 - **Live URL**: [https://zameernagaral.github.io/AeroBMSCE_TASK_REPO/](https://zameernagaral.github.io/AeroBMSCE_TASK_REPO/)
+- **Admin Portal Route**: `/login` (accessible via footer link on live homepage)
 - **Repository**: [https://github.com/zameernagaral/AeroBMSCE_TASK_REPO](https://github.com/zameernagaral/AeroBMSCE_TASK_REPO)
-- **CI/CD Pipeline**: [.github/workflows/deploy.yml](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/.github/workflows/deploy.yml)
-- **Design Tokens**: [styles/tokens.css](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/styles/tokens.css) & [docs/TOKENS.md](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/docs/TOKENS.md)
-- **App Specification**: [docs/APP.md](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/docs/APP.md) & [docs/BRIEF.md](file:///Users/zameerabdulkalamnagaral/AeroBMSCE_TASK_REPO/docs/BRIEF.md)
+- **CI/CD Pipeline**: [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
+- **Design Tokens**: [styles/tokens.css](styles/tokens.css) & [docs/TOKENS.md](docs/TOKENS.md)
+- **App Specification**: [docs/APP.md](docs/APP.md) & [docs/BRIEF.md](docs/BRIEF.md)
